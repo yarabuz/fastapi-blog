@@ -7,5 +7,12 @@
 </head>
 <body>
     <h1>hola Julii</h1>
+
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
 </body>
 </html>

@@ -72,3 +72,18 @@ now html pages should return:
 def home(request: Request):
     return templates.TemplateResponse(request, "home.html")
 ```
+
+passing variable to the template in the third parameter as a dictionary:
+```
+def home(request: Request):
+    return templates.TemplateResponse(request, "home.html", {"posts": posts})
+```
+then using with curly braces and percentage simbols:
+```
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
+```
