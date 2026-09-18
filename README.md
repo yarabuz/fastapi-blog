@@ -2,7 +2,7 @@
 
 ### (Part 1): Getting Started - Web App + REST API
 
-[Corey Shaffer video](https://www.youtube.com/watch?v=7AMjmCTumuo&t=331s)
+[Python FastAPI Tutorial(Part 1): Getting Started - Web App + REST API](https://www.youtube.com/watch?v=7AMjmCTumuo&t=331s)
 
 using UV: [documentation](https://docs.astral.sh/uv/#installation)
 
@@ -49,3 +49,26 @@ check the documentation site:
 
 and its new version:
 [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+
+### (Part 2): HTML Frontend for Your API - Jinja2 Templates
+
+[Python FastAPI Tutorial (Part 2): HTML Frontend for Your API - Jinja2 Templates](https://www.youtube.com/watch?v=G4NIB9Rx9Qs)
+
+not necessary if you install fastapi[standard]
+```
+pip install jinja2
+or
+uv add jinja
+```
+
+define a template variables pointing to a new folder with the templates:
+```
+templates = Jinja2Templates(directory="templates")
+```
+
+now html pages should return:
+```
+def home(request: Request):
+    return templates.TemplateResponse(request, "home.html")
+```
