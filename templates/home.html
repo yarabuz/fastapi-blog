@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast API Blog</title>
+    <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            Fast API Blog
+        {% endif %}
+    </title>
 </head>
 <body>
     <h1>hola Julii</h1>
