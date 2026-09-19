@@ -87,3 +87,10 @@ then using with curly braces and percentage simbols:
         </div>
     {% endfor %}
 ```
+
+setting a static folder:
+```
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+```
