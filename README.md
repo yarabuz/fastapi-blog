@@ -94,3 +94,24 @@ from fastapi.staticfiles import StaticFiles
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 ```
+
+### Python FastAPI Tutorial (Part 3): Path Parameters - Validation and Error Handling
+
+[Python FastAPI Tutorial (Part 3): Path Parameters - Validation and Error Handling](https://www.youtube.com/watch?v=WRjXIA5pMtk)
+
+add curly braces with a name, a that same name in the signature of the method with a type
+```
+@app.get("/api/post/{post_id}")
+def get_post(post_id: int)
+```
+
+To return a 404 error code:
+
+```
+from fastapi import HTTPException, status
+```
+
+raise an excpetion with a few arguments
+```
+raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+```
