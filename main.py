@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -45,6 +46,21 @@ posts: list[dict] = [
 @app.get("/api/posts", response_model=list[PostResponse])
 def get_posts():
     return posts
+
+@app.post("/api/posts", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
+def create_post(post: PostCreate):
+    new_id = max(post["id"] for post in posts) + 1 if posts else 1
+    now = datetime.now()
+    new_post = {
+        "id": new_id,
+        "title": post.title,
+        "content": post.content,
+        "author": post.author,
+        "date_posted": now.strftime("%B %d, %Y")
+    }
+    posts.append(new_post)
+    return new_post
+    
 
 @app.get("/api/posts/{post_id}", response_model=PostResponse)
 def get_post(post_id: int):
