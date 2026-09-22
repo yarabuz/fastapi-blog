@@ -115,3 +115,8 @@ raise an excpetion with a few arguments
 ```
 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
 ```
+
+using curly braces with url_for to redirect a method name and parameters
+```
+<a class="article-title" href="{{ url_for('post_page', post_id=post.id) }}">{{ post.title }}</a>
+```

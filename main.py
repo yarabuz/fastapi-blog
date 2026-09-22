@@ -14,7 +14,7 @@ def home(request: Request):
     return templates.TemplateResponse(request, "home.html", {"posts": posts})
 
 @app.get("/posts/{post_id}", include_in_schema=False)
-def get_post(request: Request, post_id: int):
+def post_page(request: Request, post_id: int):
     post = next((post for post in posts if post["id"] == post_id), None)
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
