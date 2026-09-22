@@ -191,3 +191,19 @@ class PostBase(BaseModel):
 def get_posts():
     return posts
 ```
+
+New endpoint for creating a post:
+```
+@app.post("/api/posts", response_model=PostResponse, status_code=status.HTTP_201_CREATED)
+def create_post(post: PostCreate):
+    new_id = max(post["id"] for post in posts) + 1 if posts else 1 # handling incremental id
+    new_post = {
+        "id": new_id,
+        "title": post.title,
+        "content": post.content,
+        "author": post.author,
+        "date_posted": "September 22, 2026"
+    }
+    posts.append(new_post)
+    return new_post
+```
