@@ -172,3 +172,22 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT
     )
 ```
+
+### Python FastAPI Tutorial (Part 4): Pydantic Schemas - Request and Response Validation
+
+[Python FastAPI Tutorial (Part 4): Pydantic Schemas - Request and Response Validation](https://www.youtube.com/watch?v=9GHxnttXxrA)
+
+Adding schemas for validations in the docs:
+```
+from pydantic import BaseModel, ConfigDict, Field
+
+class PostBase(BaseModel):
+    title: str = Field(min_length=1, max_length=100)
+    content: str = Field(min_length=1)
+    author: str = Field(min_length=1, max_length=100)
+```
+```
+@app.get("/api/posts", response_model=list[PostResponse])
+def get_posts():
+    return posts
+```
