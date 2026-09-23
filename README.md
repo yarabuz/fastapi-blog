@@ -207,3 +207,32 @@ def create_post(post: PostCreate):
     posts.append(new_post)
     return new_post
 ```
+
+### Python FastAPI Tutorial (Part 5): Adding a Database - SQLAlchemy Models and Relationships
+
+[Python FastAPI Tutorial (Part 5): Adding a Database - SQLAlchemy Models and Relationships](https://www.youtube.com/watch?v=NvOV3ig2tGY)
+
+Install SQLAlchemy:
+```
+pip install sqlalchemy
+or
+uv add sqlalchemy
+```
+
+creating a new file for database config:
+```
+SQLALCHEMY_DATABASE_URL = "sqlite:///./blog.db" # url connection
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+class Base(declarative_base):
+    pass
+
+def get_db():
+    with SessionLocal() as db:
+        yield db
+```
