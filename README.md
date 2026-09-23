@@ -261,3 +261,11 @@ class PostUpdate(BaseModel):
     content: str | None = Field(Default=None, min_length=1)
 ```
 
+Patch method to partially update sent fields:
+```
+# exclude None values
+update_data = post_data.model_dump(exclude_unset=True)
+# updating each field
+for field, value in update_data.items():
+    setattr(post, field, value)
+```
