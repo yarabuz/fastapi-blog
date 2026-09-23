@@ -28,7 +28,9 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", include_in_schema=False)
 @app.get("/posts", include_in_schema=False)
-def home(request: Request):
+def home(request: Request, db: Annotated[Session, Depends(get_db)]):
+    result = db.execute(select(models.Post).order_by(models.Post.date_posted.desc()))
+    posts = result.scalars().all()
     return templates.TemplateResponse(request, "home.html", {"posts": posts})
 
 @app.get("/posts/{post_id}", include_in_schema=False)
