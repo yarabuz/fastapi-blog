@@ -269,3 +269,9 @@ update_data = post_data.model_dump(exclude_unset=True)
 for field, value in update_data.items():
     setattr(post, field, value)
 ```
+
+delete a post:
+```
+    db.delete(post)
+    db.commit()
+```
