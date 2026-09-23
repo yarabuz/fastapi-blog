@@ -55,7 +55,7 @@ posts: list[dict] = [
 	},
 ]
 #
-# API Routes
+# API Routes: Users
 #
 @app.post("/api/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(user: UserCreate, db: Annotated[Session, Depends(get_db)]):
@@ -74,6 +74,18 @@ def create_user(user: UserCreate, db: Annotated[Session, Depends(get_db)]):
     db.commit()
     db.refresh(new_user)
     return new_user
+
+@app.get("/api/users/{user_id}", response_model=UserResponse)
+def get_user(user_id: int, db: Annotated[Session, Depends(get_db)]):
+    result = db.execute(select(models.User).where(models.User.Id == user_id))
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user
+
+#
+# API Routes: Posts
+#
 
 @app.get("/api/posts", response_model=list[PostResponse])
 def get_posts():
