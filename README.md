@@ -275,3 +275,9 @@ delete a post:
     db.delete(post)
     db.commit()
 ```
+
+remove user:
+```
+# cascade="all, delete-orphan" deletes all data from the relationship
+posts: Mapped[list[Post]] = relationship("Post", back_populates="author", cascade="all, delete-orphan")
+```
