@@ -22,6 +22,10 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     user_id: int # Temporary for testing, will be removed when authentication is implemented
 
+class PostUpdate(BaseModel):
+    title: str | None = Field(default=None, min_lenght=1, max_length=100)
+    content: str | None = Field(Default=None, min_length=1)
+
 class PostResponse(PostBase):
     model_config = ConfigDict(from_attributes=True)
     

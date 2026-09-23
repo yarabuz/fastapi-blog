@@ -250,3 +250,14 @@ class User(Base):
     posts: Mapped[list[Post]] = relationship("Post", back_populates="author")
 ```
 
+### Python FastAPI Tutorial (Part 6): Completing CRUD - Update and Delete (PUT, PATCH, DELETE)
+
+[Python FastAPI Tutorial (Part 6): Completing CRUD - Update and Delete (PUT, PATCH, DELETE)](https://www.youtube.com/watch?v=VyoGAoxQhxM)
+
+creating a new optional schema:
+```
+class PostUpdate(BaseModel):
+    title: str | None = Field(default=None, min_lenght=1, max_length=100)
+    content: str | None = Field(Default=None, min_length=1)
+```
+
