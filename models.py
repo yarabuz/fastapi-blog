@@ -19,7 +19,7 @@ class User(Base):
     @property
     def image_path(self) -> str:
         if self.image_file:
-            return f"/static/profile_pics/{self.image_file}"
+            return f"/media/profile_pics/{self.image_file}"
         return "/static/profile_pics/default.jpg"
 
 class Post(Base):
