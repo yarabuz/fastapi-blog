@@ -281,3 +281,14 @@ remove user:
 # cascade="all, delete-orphan" deletes all data from the relationship
 posts: Mapped[list[Post]] = relationship("Post", back_populates="author", cascade="all, delete-orphan")
 ```
+
+### Python FastAPI Tutorial (Part 7): Sync vs Async - Converting Your App to Asynchronous
+
+[Python FastAPI Tutorial (Part 7): Sync vs Async - Converting Your App to Asynchronous](https://www.youtube.com/watch?v=2JPDt-Jp6fM)
+
+add depencency for sqlite, a sql driver to handle async operations
+```
+pip install aiosqlite
+or
+uv add aiosqlite
+```
