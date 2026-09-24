@@ -309,3 +309,29 @@ let fastAPI async handler exception:
 ```
 return await http_exception_handler(request, exception)
 ```
+
+
+### Python FastAPI Tutorial (Part 8): Routers - Organizing Routes into Modules with APIRouter
+
+[Python FastAPI Tutorial (Part 8): Routers - Organizing Routes into Modules with APIRouter](https://www.youtube.com/watch?v=NkgIHa6KtHg)
+
+Migrate to routes:
+```
+from fastapit import APIRouter
+
+router = APIRouter()
+```
+
+change app to the router created and remove de '/api/users' path
+````
+@router.get("", response_model=list[UserResponse])
+async def get_users(db: Annotated[AsyncSession, Depends(get_db)]):
+```
+
+now add router in main.pi
+```
+from routers import posts, users
+
+app.include_router(users.router, prefix="/api/users", tags=["users"])
+app.include_router(posts.router, prefix="/api/posts", tags=["posts"])
+```
