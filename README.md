@@ -292,3 +292,20 @@ pip install aiosqlite
 or
 uv add aiosqlite
 ```
+
+change all method to be asyncronous:
+```
+# add keyword 'async' to the begin of method definition
+# change Session to AsyncSession
+async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
+    # add 'await' to every i/o operation on db
+    result = await db.execute(select(models.Post)
+                                # add selectinload in every realtion that needs to be load
+                              .options(selectinload(models.Post.author))
+                              .order_by(models.Post.date_posted.desc()))
+```
+
+let fastAPI async handler exception:
+```
+return await http_exception_handler(request, exception)
+```
