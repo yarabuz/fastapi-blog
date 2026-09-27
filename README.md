@@ -335,3 +335,8 @@ from routers import posts, users
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(posts.router, prefix="/api/posts", tags=["posts"])
 ```
+
+### Python FastAPI Tutorial (Part 9): Frontend Forms - Connecting JavaScript to Your API
+
+[Python FastAPI Tutorial (Part 9): Frontend Forms - Connecting JavaScript to Your API](https://www.youtube.com/watch?v=vqjZOyT4QRs)
+

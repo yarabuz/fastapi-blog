@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import Annotated
+import mimetypes
 
 from fastapi import FastAPI, Request, HTTPException, status, Depends
 from fastapi.exceptions import RequestValidationError
@@ -24,6 +25,8 @@ async def lifespan(_app: FastAPI):
     yield
     # shoutdown
     await engine.dispose()
+
+mimetypes.add_type("text/javascript", ".js")
 
 app = FastAPI(lifespan=lifespan)
 
