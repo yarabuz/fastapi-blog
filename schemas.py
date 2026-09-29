@@ -19,8 +19,8 @@ class UserPublic(BaseModel):
 class UserPrivate(UserPublic):
     email: EmailStr
 
-class token(BaseModel):
-    acces_token: str
+class Token(BaseModel):
+    access_token: str
     token_type: str
 
 class UserUpdate(BaseModel):
