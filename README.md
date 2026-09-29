@@ -340,3 +340,96 @@ app.include_router(posts.router, prefix="/api/posts", tags=["posts"])
 
 [Python FastAPI Tutorial (Part 9): Frontend Forms - Connecting JavaScript to Your API](https://www.youtube.com/watch?v=vqjZOyT4QRs)
 
+connecting frontend with backend trought javascript and bootstrap modals
+
+### Python FastAPI Tutorial (Part 10): Authentication - Registration and Login with JWT
+
+[Python FastAPI Tutorial (Part 10): Authentication - Registration and Login with JWT](https://www.youtube.com/watch?v=Go4wYJJhR3k)
+
+
+installing new dependencies:
+```
+pip install "pwdlib[argon2]" pyjwt pydantic-settings
+or
+uv add "pwdlib[argon2]" pyjwt pydantic-settings
+```
+
+adding a new attribute to the model User:
+````
+password_hash: Mapped[str] = mapped_column(String(200), nullable=False)
+```
+
+updating schemas:
+```
+password: str = Field(min_length=8)
+```
+
+Modifiy UserResponse to UserPublic and UserPrivate:
+```
+class UserPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    username: str
+    image_file: str | None
+    image_path: str
+
+class UserPrivate(UserPublic):
+    email: EmailStr
+```
+
+create a new Token schema class:
+```
+class token(BaseModel):
+    acces_token: str
+    token_type: str
+```
+
+create a new file `config.py` on the root of the project:
+```
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8"
+    )
+
+    secret_key: SecretStr
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+
+settings = Settings() # Loaded from .env file
+```
+
+create a .env file:
+```
+SECRET_KEY=
+```
+
+quickly create a secret key on the console:
+```
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+outputs something like: `279e7cc0394dee369dc5e6e315ec22ea55033fc0220a842b6830c43eff976eaf`
+
+create an authorization utilities:
+```
+from datetime import UTC, datetime, timedelta
+import jwt
+from fastapi.security import OAuth2PasswordBearer
+from pwdlib import PasswordHash
+
+from config import settings
+
+password_hash = PasswordHash.recommended()
+
+oauth2-scheme = OAuth2PasswordBearer(tokenUrl="api/users/token")
+
+def hash_password(password: str) -> str:
+    return password_hash.hash(password)
+
+def verify_password(password: str, hashed_password: str) -> bool:
+    return password_hash.verify(password, hashed_password)
+```
