@@ -433,3 +433,22 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, hashed_password: str) -> bool:
     return password_hash.verify(password, hashed_password)
 ```
+
+### Python FastAPI Tutorial (Part 11): Authorization - Protecting Routes and Verifying Current User
+
+[Python FastAPI Tutorial (Part 11): Authorization - Protecting Routes and Verifying Current User](https://www.youtube.com/watch?v=MY0TFMMm9B0)
+
+Create a dependency and creating an alias to call it:
+```
+CurrentUser = Annotated[models.User, Depends(get_current_user)]
+```
+
+remove hardcode user_id on PostCreate schema.
+Add the alias as a parameter on a method router to protected:
+```
+async def create_post(
+    post: PostCreate,
+    current_user: CurrentUser, # gets unauthorize if it is not present
+    db: Annotated[AsyncSession, Depends(get_db)]
+):
+```

@@ -33,7 +33,7 @@ class PostBase(BaseModel):
     content: str = Field(min_length=1)
 
 class PostCreate(PostBase):
-    user_id: int # Temporary for testing, will be removed when authentication is implemented
+    pass
 
 class PostUpdate(BaseModel):
     title: str | None = Field(default=None, min_lenght=1, max_length=100)
