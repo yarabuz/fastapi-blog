@@ -452,3 +452,41 @@ async def create_post(
     db: Annotated[AsyncSession, Depends(get_db)]
 ):
 ```
+
+### Python FastAPI Tutorial (Part 12): File Uploads - Image Processing, Validation, and Storage
+
+[Python FastAPI Tutorial (Part 12): File Uploads - Image Processing, Validation, and Storage](https://www.youtube.com/watch?v=AExumWjfbyo)
+
+add a new dependency to work with images:
+```
+pip install pillow
+or
+uv add pillow
+```
+
+create a utility class `image_utils.py` to centralize and reuse common image logic
+
+add a maximun size in config.py:
+```
+max_upload_size_bytes: int = 5 * 1024 * 1024
+```
+
+creating in users routes 2 new endpoints:
+````
+@router.patch("/{user_id}/picture", response_model=UserPrivate)
+async def upload_profile_picture(
+    user_id: int,
+    file: UploadFile,
+    current_user: CurrentUser,
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+...
+
+@router.delete("/{user_id}/picture", response_model=UserPrivate)
+async def delete_user_picture(
+    user_id: int,
+    current_user: CurrentUser,
+    db: Annotated[AsyncSession, Depends(get_db)],
+):
+```
+
