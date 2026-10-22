@@ -490,3 +490,70 @@ async def delete_user_picture(
 ):
 ```
 
+### Python FastAPI Tutorial (Part 13): Pagination - Loading More Data with Query Parameters
+
+[Python FastAPI Tutorial (Part 13): Pagination - Loading More Data with Query Parameters](https://www.youtube.com/watch?v=f1zggIOxmJg)
+
+Pagination:
+
+- Creating a new DTO class to response
+```
+class PaginatedPostsResponse(BaseModel):
+    posts: list[PostResponse]
+    total: int
+    skip: int
+    limit: int
+    has_more: bool
+```
+
+- Add new import in Post route:
+````
+from fastapi import Query
+from sqlalchemy import func
+
+from schemas import PaginatedPostsResponse
+```
+
+- Change response model for get posts:
+```
+@router.get("", response_model=PaginatedPostsResponse)
+```
+
+- add the new parameters from skip and limit:
+````
+    db: Annotated[AsyncSession, Depends(get_db)],
+    skip: Annotated[int, Query(ge=0)] = 0, # greater than or equals to zero, default is zero
+    limit: Annotated[int, Query(ge=1, le=100)] = 10 # greater than or equals to one and less than or equal to a hundred, default ten
+```
+
+- add a count query:
+````
+    count_result = await db.execute(select(func.count()).select_from(models.Post))
+    total = count_result.scalar() or 0
+```
+
+- add a offset and limit to the query
+```
+    result = await db.execute(
+        select(models.Post)
+        .options(selectinload(models.Post.author))
+        .order_by(models.Post.date_posted.desc())
+        .offset(skip)
+        .limit(limit)
+```
+
+- calculate 'has_more':
+```
+    has_more = skip + len(posts) < total
+```
+
+- return the newly PaginatedPostsResponse:
+```
+    return PaginatedPostsResponse(
+        posts=[PostResponse.model_validate(post) for post in posts],
+        total= total,
+        skip=skip,
+        limit=limit,
+        has_more=has_more
+    )
+```
