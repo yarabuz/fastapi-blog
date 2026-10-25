@@ -557,3 +557,65 @@ from schemas import PaginatedPostsResponse
         has_more=has_more
     )
 ```
+
+- add to the global setting a property to set posts per page:
+````
+    posts_per_page: int = 10
+```
+
+- import in main.py
+```
+from sqlalchemy import func
+from config import settings
+```
+
+- add pagintion logic:
+```
+    count_result = await db.execute(select(func.count()).select_from(models.Post) )
+    total = count_result.scalar() or 0
+```
+
+- limit the query with the default setting
+```
+select(models.Post)
+    .options(selectinload(models.Post.author))
+    .order_by(models.Post.date_posted.desc())
+    .limit(settings.posts_per_page)
+```
+
+- calculate if there are more post to show:
+```
+    has_more = len(posts) < total
+```
+
+- add the new info (limit, has_more) to the template:
+```
+    return templates.TemplateResponse(
+        request,
+        "home.html",
+        {
+            "posts": posts,
+            "title": "Home",
+            "limit": settings.posts_per_page,
+            "has_more": has_more
+        }
+    )
+```
+
+- in jinja2 templates: wrap the posts in a html div:
+```
+<div id="postsContainer">
+...
+</div>
+```
+
+- calculate if there are more posts to show to render the buttons:
+```
+  {% if has_more %}
+    <div class="text-center mb-4">
+        <button type="button" class="btn btn-outline-primary" id="loadMoreBtn">Load More Posts</button>
+    </div>
+  {% endif %}
+```
+
+- add the logic to capture and re-render the new posts
