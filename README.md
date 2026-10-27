@@ -619,3 +619,5 @@ select(models.Post)
 ```
 
 - add the logic to capture and re-render the new posts
+
+- Worth to check out: FastAPi Pagination a library that handles all pagination easy.
